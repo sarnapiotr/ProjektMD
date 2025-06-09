@@ -76,7 +76,6 @@ bool allColored(std::vector<int>& colors, std::stack<int>& vertexStack) {
     for (int i = 0; i < colors.size(); i++) {
         if (colors[i] == 0) {
             vertexStack.push(i);
-            colors[i] = 1;
             return false;
         }
     }
@@ -85,15 +84,14 @@ bool allColored(std::vector<int>& colors, std::stack<int>& vertexStack) {
 
 bool boolBacktrackGraphColoring(int**& graphMatrix, const int& vertexCount, const int& maxColors, std::vector<int>& colors) {
     std::stack<int> vertexStack;
-    int currentVertex{ 0 };
-    colors[currentVertex] = 1;
-    vertexStack.push(currentVertex);
+    colors[0] = 1;
+    vertexStack.push(0);
 
     while (!vertexStack.empty()) {
-        currentVertex = vertexStack.top();
+        int currentVertex = vertexStack.top();
         bool colored = false;
 
-        for (int newColor = colors[currentVertex]; newColor <= maxColors; newColor++) {
+        for (int newColor = colors[currentVertex] + 1; newColor <= maxColors; newColor++) {
             if (isSafe(graphMatrix, vertexCount, colors, currentVertex, newColor)) {
                 colors[currentVertex] = newColor;
                 colored = true;
